@@ -4,7 +4,7 @@ Entry for the make.fun bounty **"Sum up 24 November's world news in one image"**
 
 ## The image
 
-A 1024×1024 front page, drawn with Pillow (`draw_image.py`), with **45
+A 1024×1024 front page, drawn with Pillow, with **45
 dated stories across 7 regions** — Europe 12, Asia-Pacific 9,
 North America 6, Middle East 8, Africa 4, Latin America 3, Sport &
 Science 3 — every one dated Tuesday, 24 November 2026 and carrying a source:
@@ -35,4 +35,4 @@ Five lead panels are real photographs of the actual events and places, from Wiki
 mkdir -p out && MAKEFUN_OUTPUT_DIR=out node main.ts
 ```
 
-`main.ts` (Node 22, standard library only) copies `entry.png` byte for byte to the output directory and refuses anything that is not a PNG of at most 1 MiB and 1024×1024. No network, no randomness, no clock. Rebuild the page with `python3 draw_image.py` (Pillow; the script aborts on any text overflow instead of truncating).
+`main.ts` (Node 22, standard library only) copies `entry.png` byte for byte to the output directory and refuses anything that is not a PNG of at most 1 MiB and 1024×1024. No network, no randomness, no clock. The page itself was built with Pillow from the 45 stories and five photographs listed above.
