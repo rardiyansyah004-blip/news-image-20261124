@@ -109,28 +109,28 @@ STORIES = [
          body="UK sanctions Myanmar's generals after the ICJ genocide ruling; 14 nations endorse the verdict on the Rohingya.",
          tag="REPORTED", src="10Things, Horizon", region="ASIA-PACIFIC",
          photo="photos/icj.jpg", fx=0.5, fy=0.5,
-         caption="THE HAGUE \u2014 THE COURT THAT RULED"),
+         caption="THE HAGUE — THE COURT THAT RULED"),
     dict(n=2, headline="TANKERS ABLAZE IN HORMUZ",
          body="Three oil tankers catch fire after hitting mines in the Strait of Hormuz; Iran warns against a US naval blockade.",
          tag="ONGOING", src="Reuters, Al Jazeera", region="MIDDLE EAST",
          photo="photos/tanker.jpg", fx=0.62, fy=0.5,
-         caption="STRAIT OF HORMUZ \u2014 TANKERS HIT MINES"),
+         caption="STRAIT OF HORMUZ — TANKERS HIT MINES"),
     dict(n=3, headline="HUANG IS BACK",
          body="Nvidia reinstates Jensen Huang as CEO after Trump intervenes; shares surge and the Nasdaq jumps 6.51%.",
          tag="REPORTED", src="10Things, Principia", region="NORTH AMERICA",
          photo="photos/huang.jpg", fx=0.5, fy=0.4,
-         caption="NVIDIA \u2014 HUANG REINSTATED"),
+         caption="NVIDIA — HUANG REINSTATED"),
     # photo row 4-5
     dict(n=4, headline="GAZA: 77 YEARS UNDONE",
          body="UN: Gaza war erased 77 years of progress; six killed in Tuesday strikes.",
          tag="ONGOING", src="Reuters, Principia", region="MIDDLE EAST",
          photo="photos/gaza.jpg", fx=0.5, fy=0.5,
-         caption="GAZA \u2014 77 YEARS ERASED"),
+         caption="GAZA — 77 YEARS ERASED"),
     dict(n=5, headline="INDONESIA PICKS VP",
          body="Prabowo names Amran Sulaiman and Sugiono to replace Gibran; assembly votes 11 Dec.",
          tag="REPORTED", src="Daily Summary", region="ASIA-PACIFIC",
          photo="photos/prabowo.jpg", fx=0.5, fy=0.35,
-         caption="JAKARTA \u2014 SUCCESSOR TO BE ELECTED"),
+         caption="JAKARTA — SUCCESSOR TO BE ELECTED"),
     # medium 6-15
     dict(n=6, headline="NATO: WE'LL DEFEND SPACE",
          body="Rutte: NATO will defend space as Russia readies a nuclear satellite.",
@@ -201,7 +201,7 @@ NUMBERS = [
     ("14", "NATIONS BACK ICJ RULING"),
     ("3", "TANKERS HIT IN HORMUZ"),
     ("+6.51%", "NASDAQ"),
-    ("700,000", "RUSSIAN DEAD \u2014 LEAK"),
+    ("700,000", "RUSSIAN DEAD — LEAK"),
     ("5,303", "MIGRANTS TO RETURN"),
     ("$41BN", "SANOFI BUYS INSMED"),
 ]
@@ -215,11 +215,11 @@ TIMELINE = [
     ("05:54", "Malaysia returns"),
 ]
 
-DATECHECK = ("DATE CHECK \u2014 Wires read to 13:00 UTC, Tuesday 24 November 2026. "
-             "Left out as wrong-day news: the ICJ ruling itself (19 Nov \u2014 only "
-             "Tuesday's sanctions shown) \u00b7 COP31's collapse (23 Nov) \u00b7 Dymer "
-             "rescue (23 Nov) \u00b7 El Chapo capture (weekend) \u00b7 Banten fire "
-             "(22 Nov) \u00b7 Peru quake (20 Nov) \u00b7 Shenzhen summit (19\u201320 Nov).")
+DATECHECK = ("DATE CHECK — Wires read to 13:00 UTC, Tuesday 24 November 2026. "
+             "Left out as wrong-day news: the ICJ ruling itself (19 Nov — only "
+             "Tuesday's sanctions shown) · COP31's collapse (23 Nov) · Dymer "
+             "rescue (23 Nov) · El Chapo capture (weekend) · Banten fire "
+             "(22 Nov) · Peru quake (20 Nov) · Shenzhen summit (19–20 Nov).")
 
 PINS = [  # (story no, lon, lat, dx, dy) — dx/dy nudge pins apart in the
     # crowded Europe cluster (schematic map)
@@ -284,7 +284,7 @@ d.text((W - MARGIN - dw, top + 20), date_s, font=F_B(17), fill=(255, 255, 255))
 
 # ---------------------------------------------------------------- subline
 top = section(22)
-sub = (f"{TOTAL} STORIES \u00b7 7 REGIONS \u00b7 EVERY ONE DATED "
+sub = (f"{TOTAL} STORIES · 7 REGIONS · EVERY ONE DATED "
        f"TUESDAY, 24 NOVEMBER 2026")
 sw = width(sub, F_B(14))
 d.text(((W - sw) / 2, top + 3), sub, font=F_B(14), fill=NAVY)
@@ -305,14 +305,14 @@ for i, (num, lab) in enumerate(NUMBERS):
 top = section(22)
 d.rectangle([0, top, W, top + 22], fill=BAND)
 parts = [f"{r} {_counts[r]}" for r in REGIONS]
-reg = "  \u00b7  ".join(parts)
+reg = "  ·  ".join(parts)
 rw = width(reg, F_B(12))
 d.text(((W - rw) / 2, top + 4), reg, font=F_B(12), fill=NAVY)
 
 # ---------------------------------------------------------------- timeline
 top = section(22)
 d.rectangle([0, top, W, top + 22], fill=NAVY)
-tl = "  \u00b7  ".join(f"{t}  {txt}" for t, txt in TIMELINE)
+tl = "  ·  ".join(f"{t}  {txt}" for t, txt in TIMELINE)
 tlw = width(tl, F_B(10))
 if tlw > CW:
     abort(f"timeline too wide: {tlw}")
@@ -387,7 +387,7 @@ for i, s in enumerate(STORIES[5:15]):
     d.text((x + nw_ + 6, yy), hl[0], font=F_B(13), fill=INK)
     bl = fit(s["body"], F_R(11), colw2 - nw_ - 6, 1, f"medium {s['n']} body")
     d.text((x + nw_ + 6, yy + 17), bl[0], font=F_R(11), fill=INK)
-    tagline = f"{s['tag']} \u00b7 {s['src']}"
+    tagline = f"{s['tag']} · {s['src']}"
     d.text((x + nw_ + 6, yy + 31), tagline, font=F_R(9), fill=GREY)
 
 # ---------------------------------------------------------------- bottom band
@@ -396,7 +396,7 @@ map_x, map_w = MARGIN, 480
 also_x, also_w = MARGIN + 492, 492
 
 # map (left)
-d.text((map_x, top), "WHERE IT HAPPENED \u2014 13 STORIES PINNED", font=F_B(12), fill=NAVY)
+d.text((map_x, top), "WHERE IT HAPPENED — 13 STORIES PINNED", font=F_B(12), fill=NAVY)
 map_top = top + 20
 map_h = 160
 d.rectangle([map_x, map_top, map_x + map_w - 1, map_top + map_h - 1], fill=SEA, outline=NAVY, width=1)
@@ -437,7 +437,7 @@ for ln in dc_lines:
     dy += 12
 
 # ALSO (right)
-d.text((also_x, top), "ALSO ON TUESDAY, 24 NOVEMBER \u2014 30 MORE STORIES", font=F_B(12), fill=NAVY)
+d.text((also_x, top), "ALSO ON TUESDAY, 24 NOVEMBER — 30 MORE STORIES", font=F_B(12), fill=NAVY)
 also_top = top + 20
 sub_w = (also_w - 12) // 2
 af = F_R(9)
@@ -446,7 +446,7 @@ for i, (n, hl, src, _r) in enumerate(ALSO):
     row = i // 2
     x = also_x + col * (sub_w + 12)
     yy = also_top + row * 15
-    line = f"{n}. {hl} \u2014 {src}"
+    line = f"{n}. {hl} — {src}"
     if width(line, af) > sub_w:
         abort(f"ALSO too wide: {line!r} ({width(line, af):.0f} > {sub_w})")
     d.text((x, yy), line, font=af, fill=INK)
@@ -454,9 +454,9 @@ for i, (n, hl, src, _r) in enumerate(ALSO):
 # ---------------------------------------------------------------- footer
 top = section(16)
 foot = ("Sources: Daily Summary of World, The Global Eye, Horizon, 10Things, Principia, IQMIA, "
-        "Kyiv Independent \u2014 all events Tuesday, 24 November 2026. "
+        "Kyiv Independent — all events Tuesday, 24 November 2026. "
         "All photographs are real news photographs of the events and places shown. "
-        "REPORTED = confirmed by sources \u00b7 ONGOING = still developing \u00b7 "
+        "REPORTED = confirmed by sources · ONGOING = still developing · "
         "CLAIM = as claimed, unverified.")
 fl = fit(foot, F_R(9), CW, 2, "footer")
 fy = top
