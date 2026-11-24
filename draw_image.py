@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Draw the news-image-20261124 front page (1024x1024 PNG).
 
-Written fresh for this entry, in this session. 45 verified stories
+Drawn fresh for this entry, in this session. 45 verified stories
 from Tuesday 24 November 2026, 7 regions, 5 real news photographs
 from Wikimedia Commons, a numbers strip, a region bar, a UTC
 timeline, 3 photo leads, 2 more photo stories, 10 medium cards, a
