@@ -1,67 +1,48 @@
-// News image for make.fun — "Sum up 24 November's world news in one
-// image" (competition news-image-20261124, Node 22, standard library
-// only).
+// News Image — Tuesday 24 November 2026.
 //
-// The front page in entry.png next to this file sums up Tuesday
-// 24 November 2026 in 45 dated stories across 7 regions: Myanmar's
-// generals sanctioned after the ICJ genocide ruling, three tankers
-// ablaze in the Strait of Hormuz, Nvidia reinstating Jensen Huang,
-// and 42 more stories, each with its source, plus a numbers strip, a
-// region bar, a UTC timeline, a pinned world map and a DATE CHECK box.
-// Five of the lead panels are real photographs of the actual events
-// and places (the Peace Palace in The Hague, a tanker at sea, Jensen
-// Huang, Gaza at dusk, Prabowo Subianto's official portrait, all from
-// Wikimedia Commons); the page itself was drawn with Pillow from the
-// 45 verified stories and five real photographs listed in the README.
-// This program copies those exact bytes to the output directory so the
-// judge sees the page unchanged.
+// This program ships the front page it holds: it copies entry.png,
+// the one image that sums up Tuesday 24 November 2026, to the output
+// directory the grader reads. Copying keeps both runs byte-identical,
+// because no drawing happens here, so no run can drift from the other.
 //
-// Deterministic by design: the file is read once, checked to be a PNG
-// of at most 1 MiB and at most 1024 by 1024 pixels, and written out
-// byte for byte. No network, no randomness, no clock, no environment
-// dependence. Outside the grader's container, MAKEFUN_OUTPUT_DIR
-// stands in for /output:
+// Before writing, it checks the file really is a PNG of at most 1 MiB
+// and at most 1024 by 1024 pixels, and refuses anything else — so a
+// bad image fails here, loudly, instead of reaching the judge.
+//
+// Run it locally with:
 //   mkdir -p out && MAKEFUN_OUTPUT_DIR=out node main.ts
+// The grader runs it with /output as the target instead.
 
-import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
-import { createHash } from 'node:crypto';
-import { dirname, join } from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { createHash } from "node:crypto";
+import { join, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
 
-const ENTRY_NAME = 'entry.png';
-const MAX_BYTES = 1024 * 1024;
-const PNG_MAGIC = [0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a];
+const HERE = resolve(fileURLToPath(new URL(".", import.meta.url)));
+const SOURCE = join(HERE, "entry.png");
+const TARGET_DIR = process.env.MAKEFUN_OUTPUT_DIR ?? "/output";
+const TARGET = join(TARGET_DIR, "entry.png");
+const PNG_SIGNATURE = [0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a];
 
-const here = dirname(fileURLToPath(import.meta.url));
-const sourcePath = join(here, ENTRY_NAME);
-const outDir = process.env.MAKEFUN_OUTPUT_DIR ?? '/output';
-const targetPath = join(outDir, ENTRY_NAME);
-
-function loadEntry() {
-  const image = readFileSync(sourcePath);
-  const looksLikePng =
-    image.length >= PNG_MAGIC.length &&
-    PNG_MAGIC.every((byte, i) => image[i] === byte);
-  if (!looksLikePng) {
-    throw new Error(`${ENTRY_NAME} is not a PNG file`);
-  }
-  if (image.length > MAX_BYTES) {
-    throw new Error(
-      `${ENTRY_NAME} is ${image.length} bytes, over the 1 MiB limit`,
-    );
-  }
-  const width = image.readUInt32BE(16);
-  const height = image.readUInt32BE(20);
-  if (width > 1024 || height > 1024) {
-    throw new Error(
-      `${ENTRY_NAME} is ${width}x${height}, over the 1024x1024 limit`,
-    );
-  }
-  return image;
+if (!existsSync(SOURCE)) {
+  throw new Error(`missing image next to this program: ${SOURCE}`);
 }
-
-const image = loadEntry();
-mkdirSync(outDir, { recursive: true });
-writeFileSync(targetPath, image);
-const digest = createHash('sha256').update(image).digest('hex');
-console.log(`wrote ${targetPath} (${image.length} bytes, sha256 ${digest})`);
+const picture = readFileSync(SOURCE);
+const looksPng =
+  picture.length >= PNG_SIGNATURE.length &&
+  PNG_SIGNATURE.every((byte, index) => picture[index] === byte);
+if (!looksPng) {
+  throw new Error("entry.png is not a PNG file");
+}
+if (picture.length > 1024 * 1024) {
+  throw new Error(`entry.png is ${picture.length} bytes, over the 1 MiB limit`);
+}
+const picWidth = picture.readUInt32BE(16);
+const picHeight = picture.readUInt32BE(20);
+if (picWidth > 1024 || picHeight > 1024) {
+  throw new Error(`entry.png is ${picWidth}x${picHeight}, over the 1024x1024 limit`);
+}
+mkdirSync(TARGET_DIR, { recursive: true });
+writeFileSync(TARGET, picture);
+const digest = createHash("sha256").update(picture).digest("hex");
+console.log(`wrote ${TARGET} (${picture.length} bytes, sha256 ${digest})`);
